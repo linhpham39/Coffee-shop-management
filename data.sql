@@ -25,16 +25,16 @@ DELETE FROM customers;
 
 insert into customers
 VALUES
-  ('Abigail',301,'07/23/1997','password',null,'abbotfrancis@outlook.com'),
-  ('Adena',302,'07/07/2002','password', null,'carlosbeard9048@gmail.com'),
-  ('Kameko',303,'08/18/2005','password', null,'ciaralowe@gmail.com'),
-  ('Patrick',304,'09/03/1995','password', null,'indigoshort@outlook.com'),
-  ('Dalton',305,'12/10/2000','password', null,'cheyennefry@gmail.com'),
-  ('Whoopi',306,'01/04/2001','password', null,'whoopi1584@gmail.com'),
-  ('Rana',307,'12/16/2005','password', null,'rana6602@outlook.com'),
-  ('Lucius',308,'01/08/2002','password', null,'lucius@outlook.com'),
-  ('Olga',309,'03/19/2000','password', null,'olga4071@gmail.com'),
-  ('Michael',310,'10/30/1997','password', null,'michael@outlook.com');
+  ('Abigail',301,'07/23/1997','password',null,'abbotfrancis@outlook.com', null),
+  ('Adena',302,'07/07/2002','password', null,'carlosbeard9048@gmail.com', null),
+  ('Kameko',303,'08/18/2005','password', null,'ciaralowe@gmail.com', null),
+  ('Patrick',304,'09/03/1995','password', null,'indigoshort@outlook.com', null),
+  ('Dalton',305,'12/10/2000','password', null,'cheyennefry@gmail.com', null),
+  ('Whoopi',306,'01/04/2001','password', null,'whoopi1584@gmail.com', null),
+  ('Rana',307,'12/16/2005','password', null,'rana6602@outlook.com', null),
+  ('Lucius',308,'01/08/2002','password', null,'lucius@outlook.com', null),
+  ('Olga',309,'03/19/2000','password', null,'olga4071@gmail.com', null),
+  ('Michael',310,'10/30/1997','password', null,'michael@outlook.com', null);
 
 SELECT *
 FROM customers;

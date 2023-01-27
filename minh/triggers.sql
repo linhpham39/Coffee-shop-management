@@ -35,11 +35,50 @@ end
 $$;
 
 
+
+
 create or replace trigger act_orderlines
 after insert or delete or update
 on orderlines
 for each row
 execute procedure compute_totalprice();
+
+
+create or replace trigger act_orders
+after update 
+on orders
+for each row
+execute procedure compute_rank();
+
+create or replace function compute_rank()
+    returns trigger;
+    language plpgsql
+    as
+    $$
+    declare 
+        temp_rank varchar(30);
+        temp_spend double precision;
+    begin
+        update  customers c
+        set spend = spend + new.total_price
+        where c.customer_id = new.customer_id;
+        (select spend 
+        into temp_spend
+        from customers
+        where c.customer_id = new.customer_id);
+        if (temp_spend >= 5 and temp_spend <= 10) then
+            temp_rank = 'Silver';
+        else if(temp_spend >= 10) then
+            temp_rank = 'Gold'
+        end if;
+        
+        update customers
+        set rank = temp_rank
+        where c.customer_id = new.customer_id;
+        return null;
+    end
+    $$
+
 
 
 --Trigger for delete order => delete orderlines
@@ -59,6 +98,7 @@ $$
     end;
 $$;
 
+
 create or replace trigger delete_order
 before delete 
 on orders
@@ -67,4 +107,6 @@ execute procedure auto_delete_orderline();
 
 delete from orders 
 where order_id = 'OD0002';
+
+
 

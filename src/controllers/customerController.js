@@ -9,13 +9,14 @@ const getCusomter = (req, res)=>{
     });
 };
 
+
 //dang ky tai khoan cho customer, neu email bi trung roi thi thong bao loi
 const signUp = (req, res) => {
-    const {name, customer_id, dob, password, rank, email} = req.body;
+    const {name, customer_id, dob, password, rank, email, spend} = req.body;
     pool.query(queries.getCustomerByEmail, [email], (error, results)=> {
         if(error)   throw error;
         if(results.rows.length <= 0){
-            pool.query(queries.addCustomer, [name, customer_id, dob, password, rank, email], (error, results)=>{
+            pool.query(queries.addCustomer, [name, customer_id, dob, password, rank, email, spend], (error, results)=>{
                 if(error)   throw error;
                 return res.status(200).json('Successfully registered');
             })
@@ -36,8 +37,34 @@ const login = (req, res)=>{
             res.status(200).json('Login successfully');
     })
 }
+
+//đổi mật khẩu
+const updatePassword = (req, res) =>{
+    const {email, currentPassword, newPassword} = req.body;
+    pool.query(queries.getCustomerByEmail, [email], (error, results) =>{
+        if(error) throw error;
+        if(!results.rows.length || results.rows[0].password != currentPassword)
+            res.status(401).json('Incorrect Username or old Password');
+        else if(results.rows[0].password == currentPassword)
+            //nếu nhập mật khẩu hiện tại đúng => đổi sang mật khẩu mới
+            pool.query(queries.updatePassword, [newPassword, email], (error, results)=>{
+                if(error) throw error;
+                console.log(newPassword);
+                res.status(200).json('Update password successfully!');  
+
+            })
+
+    })
+}
+
+//xóa tài khoan cua khách hàng
+
+//cập nhật lại rank done 
+
+
 module.exports = {
     signUp,
     getCusomter,
     login,
+    updatePassword,
 }
