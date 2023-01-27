@@ -2,7 +2,8 @@ const express = require('express');
 const employeeRoutes = require('./src/routes/employeeRoutes');
 const customerRoutes = require('./src/routes/customerRoutes');
 const ingredientRoutes = require('./src/routes/ingredientRoutes');
-const recipeRoutes = require('./src/routes/recipeRoutes.js');
+const productRoutes = require('./src/routes/productRoutes');
+//const recipeRoutes = require('./src/routes/recipeRoutes.js');
 const app = express();
 const port = 8000;
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 
 app.use('/customers', customerRoutes);
 app.use('/employees', employeeRoutes);
+app.use('/products', productRoutes);
 app.use('/ingredients', ingredientRoutes);
-app.use('/recipes', recipeRoutes);
+//app.use('/recipes', recipeRoutes);
 app.listen(port, () => console.log(`App listening on port http://localhost:${port}`));
