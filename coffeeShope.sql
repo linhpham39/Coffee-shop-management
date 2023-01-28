@@ -5,7 +5,8 @@ create table if not exists customers(
 	dob date,
 	password varchar(50),
 	rank varchar(30),
-	check ("rank" in('Silver', 'Gold', 'Diamond'))
+	check ("rank" in('Silver', 'Gold', 'Diamond')), 
+	expense double precision
 );
 create table if not exists employees(
 	employee_id integer primary key,
@@ -20,7 +21,7 @@ create table if not exists managers(
 	constraint fk_employee foreign key (employee_id) references employees(employee_id)
 );
 create table if not exists Orders(
-	order_id varchar(10),
+	order_id varchar(10) primary key,
 	total_price double precision,
 	date date,
 	employee_id integer,
@@ -33,7 +34,7 @@ create table if not exists products(
 	product_id varchar(10) primary key,
 	name varchar(30) ,
 	category varchar(20),
-	check ("category" in ('Drinks', 'Food')),
+	check ("category" in ('Cold Coffees', 'Hot Coffees', 'Food', 'Hot Drinks' )),
 	selling_price double precision,
 	state varchar(20),
 	check ("state" in ('available', 'out of stock')),
@@ -42,7 +43,8 @@ create table if not exists products(
 create table if not exists orderlines(
 	order_id varchar(10),
 	product_id varchar(10),
-	constraint fk_product foreign key(product_id) references products(product_id),
+	constraint fk_order foreign key(order_id) references orders(order_id) on delete cascade,
+	constraint fk_product foreign key(product_id) references products(product_id) on delete cascade,
 	primary key(order_id, product_id),
 	quantity integer
 );
@@ -60,6 +62,7 @@ create table if not exists recipes(
 	ingredient_id varchar(10),
 	constraint fk_ingredient foreign key(ingredient_id) references ingredients(ingredient_id),
 	constraint pk_recipe primary key(product_id, ingredient_id)
+	ingredient_mass double precision	
 );
 -- Employee
 insert into employees values

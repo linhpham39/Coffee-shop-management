@@ -44,32 +44,27 @@ for each row
 execute procedure compute_totalprice();
 
 
-create or replace trigger act_orders
-after update 
-on orders
-for each row
-execute procedure compute_rank();
-
+--tính lại rank của customers
 create or replace function compute_rank()
-    returns trigger;
+    returns trigger
     language plpgsql
     as
     $$
     declare 
         temp_rank varchar(30);
-        temp_spend double precision;
+        temp_expense double precision;
     begin
         update  customers c
-        set spend = spend + new.total_price
+        set expense = expense + new.total_price
         where c.customer_id = new.customer_id;
-        (select spend 
-        into temp_spend
+        select expense 
+        into temp_expense
         from customers
-        where c.customer_id = new.customer_id);
-        if (temp_spend >= 5 and temp_spend <= 10) then
+        where c.customer_id = new.customer_id;
+        if (temp_expense >= 5 and temp_expense <= 10) then
             temp_rank = 'Silver';
-        else if(temp_spend >= 10) then
-            temp_rank = 'Gold'
+        elseif(temp_expense >= 10) then
+            temp_rank = 'Gold';
         end if;
         
         update customers
@@ -77,7 +72,13 @@ create or replace function compute_rank()
         where c.customer_id = new.customer_id;
         return null;
     end
-    $$
+    $$;
+	
+create or replace trigger act_orders
+after update 
+on orders
+for each row
+execute procedure compute_rank();
 
 
 

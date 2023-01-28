@@ -46,7 +46,7 @@ const updateProduct = (req, res) =>{
             res.send("Product does not exist in the database");
         
         //update product
-        pool.query(queries.updateProduct, [product_id, name, category, selling_price, state, revenue], (error, results) =>{
+        pool.query(queries.updateProduct, [name, category, selling_price, state, revenue, product_id], (error, results) =>{
             if(error) throw error;
             res.status(200).send('Update successfully!');
         });

@@ -2,7 +2,12 @@ const {Router} = require('express');
 const orders = require('../controllers/orderController');
 var router = Router();
 
-router.get('/', orders.showOrders);
+
+router.get('/', orders.getAllOrders);
+//router.get('/', orders.showOrders);
+router.post('/add', orders.addOrder);
+router.get('/orderlines/:id', orders.showOrderlines);
+//show ra các order trong một ngày
 
 // các chức năng của order:
 /* 
@@ -13,3 +18,6 @@ router.get('/', orders.showOrders);
 - tính tổng doanh thu từ date1 đến date 2
 - tính tổng lợi nhuận từ date 1 đến date 2
 */
+
+
+module.exports = router;

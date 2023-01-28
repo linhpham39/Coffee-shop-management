@@ -23,6 +23,10 @@ ADD column email varchar(50);
 
 DELETE FROM customers;
 
+--thêm cột expense - số tiền customer đã tiêu
+alter table customers
+add column expense double precision
+
 insert into customers
 VALUES
   ('Abigail',301,'07/23/1997','password',null,'abbotfrancis@outlook.com', null),
@@ -212,14 +216,17 @@ VALUES
 DELETE FROM orderlines;
 
 ALTER TABLE orderlines
-ADD constraint fk_order_id foreign key (order_id) references orders(order_id);
+ADD constraint fk_order_id foreign key (order_id) references orders(order_id) on delete cascade;
 
 INSERT INTO orderlines
 VALUES
   ('OD0001','HC001', 2),
   ('OD0002','HC004', 1),
   ('OD0002','HC003', 1),
-  ('OD0003','CC001', 1),
+
+
+  ('OD0002','CC001', 1),
+
   ('OD0003','HD002', 2),
   ('OD0003','FD001', 3),
   ('OD0004','HC012', 2),
