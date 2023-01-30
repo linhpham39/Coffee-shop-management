@@ -1,13 +1,16 @@
-
+--CUSTOMERS
 create table if not exists customers(
-	 name varchar(50),
 	customer_id integer primary key,
+	name varchar(50),
 	dob date,
+	email varchar(50),
 	password varchar(50),
 	rank varchar(30),
 	check ("rank" in('Silver', 'Gold', 'Diamond')), 
 	expense double precision
 );
+
+--EMPLOYEES
 create table if not exists employees(
 	employee_id integer primary key,
     name varchar(50),
@@ -16,10 +19,15 @@ create table if not exists employees(
 	dob date,
 	password varchar(50)
 );
+
+--MANAGERS
 create table if not exists managers(
 	employee_id integer,
 	constraint fk_employee foreign key (employee_id) references employees(employee_id)
 );
+
+
+--ORDERS 
 create table if not exists Orders(
 	order_id varchar(10) primary key,
 	total_price double precision,
@@ -30,6 +38,8 @@ create table if not exists Orders(
 	constraint fk_customer foreign key(customer_id) references customers(customer_id) on delete cascade
 );
 
+
+--PRODUCTS
 create table if not exists products(
 	product_id varchar(10) primary key,
 	name varchar(30) ,
@@ -40,6 +50,8 @@ create table if not exists products(
 	check ("state" in ('available', 'out of stock')),
 	revenue double precision
 );
+
+-- ORDERLINES
 create table if not exists orderlines(
 	order_id varchar(10),
 	product_id varchar(10),
@@ -49,6 +61,8 @@ create table if not exists orderlines(
 	quantity integer
 );
 
+
+--INGREDIENTS
 create table if not exists ingredients(
 	ingredient_id varchar(10) primary key,
 	price_per_kg double precision,
@@ -56,6 +70,8 @@ create table if not exists ingredients(
 	available_mass double precision
 );
 
+
+--RECIPES
 create table if not exists recipes(
 	product_id varchar(10),
 	constraint fk_product2 foreign key(product_id) references products(product_id),
@@ -64,11 +80,14 @@ create table if not exists recipes(
 	constraint pk_recipe primary key(product_id, ingredient_id)
 	ingredient_mass double precision	
 );
--- Employee
-insert into employees values
-(1,'Linh',20000, 'linh@gmail.com', '3/9/2002', 'linhcoffeeshop'),
-(2, 'Minh', 40000, 'minh@gmail.com', '10/23/2002', 'minhcoffeeshop'),
-(3,'Huyen', 30000,'huyen@gmail.com', '11/08/2002', 'huyencoffeshop');
 
+
+
+select * from customers
+drop table customers
+alter table orders
+drop constraint fk_customer
+alter table orders
+add constraint fk_customer foreign key(customer_id) references customers(customer_id) on delete cascade;
 
 

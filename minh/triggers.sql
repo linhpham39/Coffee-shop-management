@@ -61,12 +61,13 @@ create or replace function compute_rank()
         into temp_expense
         from customers
         where c.customer_id = new.customer_id;
-        if (temp_expense >= 5 and temp_expense <= 10) then
+         if (temp_expense >= 100 and temp_expense <= 200) then
             temp_rank = 'Silver';
-        elseif(temp_expense >= 10) then
+        elseif(temp_expense >= 201 and temp_expense <=600) then
             temp_rank = 'Gold';
+		elseif(temp_expense >= 601) then
+			temp_rank = 'Diamond';
         end if;
-        
         update customers
         set rank = temp_rank
         where c.customer_id = new.customer_id;
@@ -111,3 +112,33 @@ where order_id = 'OD0002';
 
 
 
+-- cap nhat lai rank sau khi insert data cho customers
+--SAI 
+create or replace function compute_rank2()
+returns trigger
+language plpgsql
+as
+$$
+declare
+	temp_rank varchar(30);
+begin 
+if (new.expense >= 100 and new.expense <= 200) then
+            temp_rank = 'Silver';
+        elseif(new.expense >= 201 and new.expense <= 600) then
+            temp_rank = 'Gold';
+		elseif(new.expense >= 601) then
+			temp_rank = 'Diamond';
+        end if;
+		update customers
+        set rank = temp_rank
+        where c.customer_id = new.customer_id;
+        return null;
+end;
+$$;
+
+
+create or replace trigger act_customers
+after insert 
+on customers
+for each row
+execute procedure compute_rank2();
