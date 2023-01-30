@@ -27,7 +27,7 @@ create table if not exists Orders(
 	employee_id integer,
 	constraint fk_employee foreign key(employee_id) references employees(employee_id),
 	customer_id integer,
-	constraint fk_customer foreign key(customer_id) references customers(customer_id)	
+	constraint fk_customer foreign key(customer_id) references customers(customer_id) on delete cascade
 );
 
 create table if not exists products(
