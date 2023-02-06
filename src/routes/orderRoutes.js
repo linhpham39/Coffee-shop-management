@@ -3,10 +3,11 @@ const orders = require('../controllers/orderController');
 var router = Router();
 
 
+router.get('/:id', orders.getOrderById);
 router.get('/', orders.getAllOrders);
-//router.get('/', orders.showOrders);
 router.post('/add', orders.addOrder);
 router.get('/orderlines/:id', orders.showOrderlines);
+router.post('/revenue-period', orders.calculateRevenue);
 //show ra các order trong một ngày
 
 // các chức năng của order:

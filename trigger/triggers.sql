@@ -43,6 +43,7 @@ create or replace function compute_rank()
         update  customers c
         set expense = expense + new.total_price
         where c.customer_id = new.customer_id;
+
         select expense 
         into temp_expense
         from customers
@@ -108,8 +109,8 @@ begin
 	if(TG_OP = 'INSERT') then
 		select (selling_price * quantity)
 		into temp
-		from orderlines ol natural join products
-		where new.product_id =  ol.product_id;
+		from orderlines natural join products p
+		where p.product_id = new.product_id  ;
 		
 		update orders
 		set total_price = total_price + temp
@@ -118,8 +119,8 @@ begin
     elseif(TG_OP = 'DELETE') then
         select (selling_price * quantity)
 		into temp
-		from orderlines ol natural join products
-		where old.product_id =  ol.product_id;
+		from orderlines ol natural join products p
+		where p.product_id = old.product_id;
 		
 		update orders
 		set total_price = total_price - temp
@@ -127,14 +128,14 @@ begin
     
     elseif(TG_OP = 'UPDATE') then
         select (selling_price * old.quantity)
-		into temp, temp2
-		from orderlines ol natural join products
-		where new.product_id =  ol.product_id;
+		into temp
+		from orderlines ol natural join products p
+		where  p.product_id = new.product_id;
 		
 		select (selling_price * new.quantity)
 		into temp2
-		from orderlines ol natural join products
-		where new.product_id =  ol.product_id;
+		from orderlines ol natural join products p
+		where  p.product_id = new.product_id;
 		
 		update orders
 		set total_price = total_price - temp + temp2

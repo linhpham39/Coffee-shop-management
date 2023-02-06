@@ -8,6 +8,14 @@ const getAllOrders = (req, res)=>{
     })
 }
 
+const getOrderById = (req, res) =>{
+    const id = req.params.id;
+    pool.query(queries.getOrderById, [id], (error, results) =>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
 const addOrder = (req, res) =>{
     const {order_id, total_price, date, employee_id, customer_id} = req.body;
     pool.query(queries.addOrder, [order_id, total_price, date, employee_id, customer_id], (error, results) =>{
@@ -25,8 +33,18 @@ const showOrderlines = (req, res)=>{
 }
 
 
+const calculateRevenue = (req, res) =>{
+    const {date1, date2} = req.body;
+    pool.query(queries.calculateRevenue, [date1, date2], (error, results)=>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
 module.exports = {
     getAllOrders,
     addOrder,
-    showOrderlines
+    showOrderlines,
+    getOrderById,
+    calculateRevenue
 }
