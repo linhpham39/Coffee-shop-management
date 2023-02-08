@@ -113,7 +113,6 @@ where order_id = 'OD0002';
 
 
 -- cap nhat lai rank sau khi insert data cho customers
---SAI 
 create or replace function compute_rank2()
 returns trigger
 language plpgsql

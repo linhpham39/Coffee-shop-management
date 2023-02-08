@@ -8,6 +8,7 @@ router.get('/', orders.getAllOrders);
 router.post('/add', orders.addOrder);
 router.get('/orderlines/:id', orders.showOrderlines);
 router.post('/revenue-period', orders.calculateRevenue);
+router.post('/profit-period', orders.calculateProfit);
 //show ra các order trong một ngày
 
 // các chức năng của order:

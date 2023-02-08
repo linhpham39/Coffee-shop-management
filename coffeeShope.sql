@@ -33,7 +33,7 @@ create table if not exists Orders(
 	total_price double precision,
 	date date,
 	employee_id integer,
-	constraint fk_employee foreign key(employee_id) references employees(employee_id),
+	constraint fk_employee foreign key(employee_id) references employees(employee_id) ON DELETE cascade,
 	customer_id integer,
 	constraint fk_customer foreign key(customer_id) references customers(customer_id) on delete cascade
 );
@@ -80,14 +80,4 @@ create table if not exists recipes(
 	constraint pk_recipe primary key(product_id, ingredient_id)
 	ingredient_mass double precision	
 );
-
-
-
-select * from customers
-drop table customers
-alter table orders
-drop constraint fk_customer
-alter table orders
-add constraint fk_customer foreign key(customer_id) references customers(customer_id) on delete cascade;
-
 

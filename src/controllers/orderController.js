@@ -41,10 +41,19 @@ const calculateRevenue = (req, res) =>{
     })
 }
 
+const calculateProfit = (req, res) =>{
+    const {date1, date2} = req.body;
+    pool.query(queries.calculateProfit, [date1, date2], (error, results)=>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
 module.exports = {
     getAllOrders,
     addOrder,
     showOrderlines,
     getOrderById,
-    calculateRevenue
+    calculateRevenue,
+    calculateProfit
 }
