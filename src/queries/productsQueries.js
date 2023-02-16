@@ -8,7 +8,10 @@ const showIngredient = `SELECT product_id, p.name, i.name, r.ingRedient_mass FRO
                         ON i.ingredient_id = r.ingredient_id
                         WHERE p.product_id = $1
                         `;
-
+const rankProduct = `SELECT p.*, count(p.*) 
+                    FROM products p NATURAL JOIN orderlines
+                    GROUP BY product_id
+                    ORDER BY count(p.*) DESC`
     
 module.exports = {
     getProducts, 
@@ -16,5 +19,6 @@ module.exports = {
     addProduct,
     removeProduct, 
     updateProduct,
-    showIngredient
+    showIngredient,
+    rankProduct
 }

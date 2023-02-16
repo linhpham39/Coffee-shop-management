@@ -24,6 +24,7 @@ const addOrder = (req, res) =>{
     })
 }
 
+//show ra các orderline của 1 order. truyền vào orderID
 const showOrderlines = (req, res)=>{
     const id = req.params.id;
     pool.query(queries.showOrderlines, [id], (error, results)=>{
@@ -41,6 +42,7 @@ const calculateRevenue = (req, res) =>{
     })
 }
 
+//tinh loi nhuan tu date a den date b
 const calculateProfit = (req, res) =>{
     const {date1, date2} = req.body;
     pool.query(queries.calculateProfit, [date1, date2], (error, results)=>{

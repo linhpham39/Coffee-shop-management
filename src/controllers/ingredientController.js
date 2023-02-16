@@ -45,11 +45,11 @@ const addIngredient = (req, res) => {
 
 const deleteIngredient = (req, res) => {
     var id = req.params.id;
-    pool.query(queries.getIngredientByID, [id], (error, results) =>{
+    pool.query(queries.getIngredientByID, [ingredient_id], (error, results) =>{
         if(results.rows.length == 0){
             res.send("The ingredient does not exist!");
         }
-        pool.query(queries.deleteIngredient,[id],(error, results)=>{
+        pool.query(queries.deleteIngredient,[ingredient_id],(error, results)=>{
             if(error) throw error;
             res.status(200).send("Delete ingredient successfully");
         });
