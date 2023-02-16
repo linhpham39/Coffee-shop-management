@@ -3,11 +3,13 @@ const addRecipes = 'insert into recipes(product_id, ingredient_id, ingredient_ma
 const getSpecific = 'select * from recipes where product_id = $1 and ingredient_id = $2'
 const removeRecipe = 'delete from recipes where product_id = $1 and ingredient_id = $2';
 const updateRecipe = 'update recipes set ingredient_mass = $1 where product_id = $2 and ingredient_id = $3'
+const showRecipeOfProduct = 'select * from recipes where product_id = $1';
 
 module.exports = {
     getRecipes,
     addRecipes,
     getSpecific,
     removeRecipe,
-    updateRecipe
+    updateRecipe,
+    showRecipeOfProduct
 }

@@ -155,3 +155,25 @@ update orderlines
 set quantity = 1
 where order_id = '2'
 select * from orders where order_id = '2'
+
+-- KIEM TRA PRODUCT CON AVALABLE KHONG MOI KHI THEM ORDERLINE
+create or replace function check_state_valid()
+returns trigger as $$
+declare
+	prod_state text;
+begin
+	select p.state into prod_state
+	from products p
+	where p.product_id = new.product_id;
+	if(prod_state = 'out of stock') then
+		raise exception 'out-of-stock product';
+	end if;
+	return new;
+end
+$$
+language 'plpgsql';
+	
+create or replace trigger check_state_trigger
+before insert on orderlines
+for each row
+execute procedure check_state_valid();
