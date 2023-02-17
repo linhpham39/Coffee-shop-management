@@ -61,10 +61,19 @@ const updatePassword = (req, res) =>{
 
 //cập nhật lại rank done 
 
+//customer xem minh da tieu bnhieu
+const getExpense = (req, res) =>{
+    var id = req.params.id;
+    pool.query(queries.getExpense, [id], (error, results) =>{
+        if (error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
 
 module.exports = {
     signUp,
     getCusomter,
     login,
     updatePassword,
+    getExpense
 }
