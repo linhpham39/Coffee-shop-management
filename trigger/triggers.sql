@@ -177,3 +177,45 @@ create or replace trigger check_state_trigger
 before insert on orderlines
 for each row
 execute procedure check_state_valid();
+
+-- UPDATE INGREDIENT MASS KHI INSERT HOAC UPDATE ORDERLINE
+create or replace function update_available_mass()
+returns trigger as $$
+declare
+	i_cur cursor for
+		select r.ingredient_id, r.ingredient_mass
+		from products p join recipes r
+		on p.product_id = r.product_id
+		where p.product_id = new.product_id;
+	avail double precision;
+begin
+	for i_row in i_cur loop
+		if(TG_OP = 'INSERT') then
+			avail = (select available_mass from ingredients i 
+					 where i.ingredient_id = i_row.ingredient_id);
+			if((avail - (new.quantity*i_row.ingredient_mass)) < 0) then 
+				raise exception 'can not add orderline';
+			end if;
+			update ingredients
+			set available_mass = round((available_mass - (new.quantity*i_row.ingredient_mass))::numeric, 2)
+			where ingredient_id = i_row.ingredient_id;
+		elseif(TG_OP = 'UPDATE') then
+			avail = (select available_mass from ingredients i 
+					 where i.ingredient_id = i_row.ingredient_id);
+			if((avail - ((new.quantity-old.quantity)*i_row.ingredient_mass)) < 0) then 
+				raise exception 'can not update orderline';
+			end if;
+			update ingredients
+			set available_mass = round((available_mass - ((new.quantity-old.quantity)*i_row.ingredient_mass))::numeric, 2)
+			where ingredient_id = i_row.ingredient_id;
+		end if;
+	end loop;
+	return new;
+end;
+$$
+language 'plpgsql';
+
+create or replace trigger update_available_mass_trigger
+after insert or update on orderlines
+for each row
+execute procedure update_available_mass();
