@@ -18,10 +18,10 @@
 - tính lợi nhuận từ ngày a đến ngày b           => done
 - xóa tài khoản
 - fix lỗi hàm post, put của products            => done
-- tạo các hàm với orderlines
+- tạo các hàm với orderlines                    => done
     + add/xóa/sửa 1 orderline
-- tạo các hàm với recipes
-- khi tạo 1 order thì cần check điều kiện available mass rồi mới add order
+- tạo các hàm với recipes                       => done
+- khi tạo 1 order thì cần check điều kiện available mass rồi mới add order  => done
 - 
 - Phân quyền admin, employee, customers bằng create view
 
