@@ -62,13 +62,21 @@ const showIngredient = (req, res)=>{
     })
 }
 
+const rankProduct = (req, res) =>{
+    pool.query(queries.rankProduct, (error, results) =>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     addProduct,
     removeProduct,
     updateProduct,
-    showIngredient
+    showIngredient,
+    rankProduct,
 }
 
 /*
