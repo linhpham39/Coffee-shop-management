@@ -1,6 +1,8 @@
 --Triggers for insert/delete/update orderlines => compute total_price in orders
 
 --drop function compute_totalprice;
+
+--CẬP NHẬT GIÁ TIỀN CHO ORDER KHI ADD/DELETE ORDERLINES
 create or replace function compute_totalprice()
     returns trigger
     language plpgsql
