@@ -22,7 +22,8 @@
     + add/xóa/sửa 1 orderline
 - tạo các hàm với recipes                       => done
 - khi tạo 1 order thì cần check điều kiện available mass rồi mới add order  => done
-- 
+- sửa các câu query liên quan đến tên và kiểu của các attributes
 - Phân quyền admin, employee, customers bằng create view
-
+- check lại các hàm hoạt động đúng chưa
 - dung index
+- Viết lại báo cáo
