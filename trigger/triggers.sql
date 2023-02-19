@@ -154,7 +154,47 @@ execute procedure compute_totalprice();
 update orderlines
 set quantity = 1
 where order_id = '2'
-select * from orders where order_id = '2'
+select * from orders where order_id = '2';
+
+--CẬP NHẬT GIÁ TIỀN CHO ORDER KHI ADD/DELETE ORDERLINES
+create or replace function compute_totalprice()
+    returns trigger
+    language plpgsql
+as
+$$
+declare 
+    temp double precision = 0;
+    o_id varchar(10);
+begin
+    IF (TG_OP = 'DELETE') THEN
+        o_id = old.order_id;
+    ELSE
+        o_id = new.order_id;
+    END if;
+
+    raise notice 'Act on %', o_id;
+
+    select sum(ol.quantity * p.selling_price)
+    into temp
+    from orderlines ol
+    join products p on ol.product_id = p.product_id
+    join orders od on od.order_id = ol.order_id
+    where od.order_id = o_id;
+
+    update orders
+    set
+        total_price = round(temp::numeric, 2)
+    where orders.order_id = o_id;
+
+    return null;
+end
+$$;
+
+create or replace trigger act_orderlines
+after insert or delete or update
+on orderlines
+for each row
+execute procedure compute_totalprice();
 
 -- KIEM TRA PRODUCT CON AVALABLE KHONG MOI KHI THEM ORDERLINE
 create or replace function check_state_valid()

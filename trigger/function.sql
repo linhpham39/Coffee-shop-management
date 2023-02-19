@@ -19,6 +19,28 @@ select revenue_period('2022-11-09', '2022-12-09')
 
 select * from orders where total_price != 0;
 
+--Calculating profit in period of time
+
+CREATE or replace function profit_period(date, date)
+    returns double precision
+    language plpgsql
+    as
+$$
+    declare 
+        total double precision = 0;
+    begin
+        select sum(profit * quantity)
+        into total
+        from orders
+            natural join orderlines 
+            natural join products
+        where date between $1 and $2;
+        return round(total::numeric, 2);
+    end; 
+$$
+
+SELECT profit_period('2022-01-01', '2023-01-01');
+
 --TINH SAN PHAM DUOC BAN RA NHIEU NHAT--
 create or replace function high_consumed_product()
 returns table (product character varying(100), amount bigint) as $$
@@ -83,4 +105,6 @@ end
 $$
 language 'plpgsql';
 
-select * from potential_customer('2023-02-01', '2023-02-28')
+select * from potential_customer('2023-02-01', '2023-02-28');
+
+
