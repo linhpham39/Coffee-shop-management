@@ -38,7 +38,7 @@ create or replace function compute_rank()
     $$
     declare 
         temp_rank varchar(30);
-        temp_expense double precision;
+        temp_expense numeric(6, 2);
     begin
         update  customers c
         set expense = expense + new.total_price

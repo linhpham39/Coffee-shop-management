@@ -1,6 +1,7 @@
 const pool = require('../../db');
 const queries = require('../queries/recipeQueries');
 
+//Lấy tất cả recipes 
 const getRecipes = (req, res) => {
     pool.query(queries.getRecipes, (error, results) => {
         if (error) throw error;
@@ -8,6 +9,7 @@ const getRecipes = (req, res) => {
     })
 }
 
+//Thêm 1 recipe
 const addRecipes = (req, res) => {
     const { product_id, ingredient_id, ingredient_mass } = req.body;
     pool.query(queries.addRecipes, [product_id, ingredient_id, ingredient_mass], (error, results) => {
@@ -17,14 +19,7 @@ const addRecipes = (req, res) => {
 
 }
 
-// const getSpecific = (req, res) => {
-//     const{product_id, ingredient_id} = req.body;
-//     pool.query(queries.getSpecific, [product_id, ingredient_id], (error, results) => {
-//         if(error) throw (error);
-//         res.status(200).json(results.rows);
-//     })
-// }
-
+//xóa đi 1 recipe với productID và ingredientID
 const removeRecipe = (req, res) => {
     const { product_id, ingredient_id } = req.body;
     pool.query(queries.getSpecific, [product_id, ingredient_id], (error, results) => {
@@ -38,6 +33,7 @@ const removeRecipe = (req, res) => {
     });
 }
 
+//cập nhật lại Recipe
 const updateRecipe = (req, res) => {
     const { product_id, ingredient_id, ingredient_mass } = req.body;
     pool.query(queries.getSpecific, [product_id, ingredient_id], (error, results) => {
@@ -54,7 +50,6 @@ const updateRecipe = (req, res) => {
 module.exports = {
     getRecipes,
     addRecipes,
-    // getSpecific,
     removeRecipe,
     updateRecipe
 }
