@@ -38,7 +38,7 @@ create or replace function compute_rank()
     $$
     declare 
         temp_rank varchar(30);
-        temp_expense double precision;
+        temp_expense numeric(6, 2);
     begin
         update  customers c
         set expense = expense + new.total_price
@@ -200,12 +200,12 @@ execute procedure compute_totalprice();
 create or replace function check_state_valid()
 returns trigger as $$
 declare
-	prod_state text;
+	prod_status text;
 begin
-	select p.state into prod_state
+	select p.status into prod_status
 	from products p
 	where p.product_id = new.product_id;
-	if(prod_state = 'out of stock') then
+	if(prod_status = 'out of stock') then
 		raise exception 'out-of-stock product';
 	end if;
 	return new;
@@ -227,10 +227,15 @@ declare
 		from products p join recipes r
 		on p.product_id = r.product_id
 		where p.product_id = new.product_id;
+    i_cur2 cursor for
+		select r.ingredient_id, r.ingredient_mass
+		from products p join recipes r
+		on p.product_id = r.product_id
+		where p.product_id = old.product_id;
 	avail double precision;
 begin
-	for i_row in i_cur loop
-		if(TG_OP = 'INSERT') then
+	if(TG_OP = 'INSERT') then
+        for i_row in i_cur loop
 			avail = (select available_mass from ingredients i 
 					 where i.ingredient_id = i_row.ingredient_id);
 			if((avail - (new.quantity*i_row.ingredient_mass)) < 0) then 
@@ -239,7 +244,9 @@ begin
 			update ingredients
 			set available_mass = round((available_mass - (new.quantity*i_row.ingredient_mass))::numeric, 2)
 			where ingredient_id = i_row.ingredient_id;
-		elseif(TG_OP = 'UPDATE') then
+        end loop;
+	elseif(TG_OP = 'UPDATE') then
+        for i_row in i_cur loop
 			avail = (select available_mass from ingredients i 
 					 where i.ingredient_id = i_row.ingredient_id);
 			if((avail - ((new.quantity-old.quantity)*i_row.ingredient_mass)) < 0) then 
@@ -248,14 +255,20 @@ begin
 			update ingredients
 			set available_mass = round((available_mass - ((new.quantity-old.quantity)*i_row.ingredient_mass))::numeric, 2)
 			where ingredient_id = i_row.ingredient_id;
-		end if;
-	end loop;
+        end loop;
+	elseif(TG_OP = 'DELETE') then
+        for i_row in i_cur2 loop
+			update ingredients
+			set available_mass = round((available_mass + (old.quantity*i_row.ingredient_mass))::numeric, 2)
+			where ingredient_id = i_row.ingredient_id;
+        end loop;
+	end if;
 	return new;
 end;
 $$
 language 'plpgsql';
 
 create or replace trigger update_available_mass_trigger
-after insert or update on orderlines
+after insert or update or delete on orderlines
 for each row
 execute procedure update_available_mass();

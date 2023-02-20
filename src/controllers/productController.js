@@ -41,19 +41,20 @@ const removeProduct= (req, res) => {
 };
 
 const updateProduct = (req, res) =>{
-    const {product_id, name, category, selling_price, state, revenue} = req.body;
+    const {product_id, name, category, selling_price, state, profit} = req.body;
     pool.query(queries.getProductById, [product_id], (error, results) =>{
         if(!results.rows.length)
             res.send("Product does not exist in the database");
         
         //update product
-        pool.query(queries.updateProduct, [product_id, name, category, selling_price, state, revenue], (error, results) =>{
+        pool.query(queries.updateProduct, [product_id, name, category, selling_price, state, profit], (error, results) =>{
             if(error) throw error;
             res.status(200).send('Update successfully!');
         });
     })
 }
 
+//Xem các thành phần, công thức của Product đó theo ID
 const showIngredient = (req, res)=>{
     const id = req.params.id;
     pool.query(queries.showIngredient, [id], (error, results)=>{
@@ -62,6 +63,7 @@ const showIngredient = (req, res)=>{
     })
 }
 
+//Xếp hạng Product theo số lượng bán được
 const rankProduct = (req, res) =>{
     pool.query(queries.rankProduct, (error, results) =>{
         if(error) throw error;
