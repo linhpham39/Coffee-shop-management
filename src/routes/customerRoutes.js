@@ -9,4 +9,7 @@ router.post('/signup', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), cus
 router.post('/login', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Customer), customers.login);
 router.put('/updatePassword', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Customer), customers.updatePassword);
 router.get('/expense/:id', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Customer), customers.getExpense);
+router.get('/rank', verifyRoles(ROLES_LIST.Manager), customers.rankCustomer);
+router.get('/potential', verifyRoles(ROLES_LIST.Manager), customers.potentialCustomer);
+router.get('/order', verifyRoles(ROLES_LIST.Manager), customers.orderCustomer);
 module.exports = router;

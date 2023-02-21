@@ -84,11 +84,36 @@ const getExpense = (req, res) =>{
     })
 }
 
+const rankCustomer = (req, res) =>{
+    pool.query(queries.rankCustomer, (error, results) =>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
+const potentialCustomer = (req, res) =>{
+    const {date1, date2} = req.body;
+    pool.query(queries.potentialCustomer, [date1, date2], (error, results)=>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
+const orderCustomer = (req, res) =>{
+    var id = req.params.id;
+    pool.query(queries.orderCustomer, [id], (error, results) =>{
+        if (error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
 
 module.exports = {
     signUp,
     getCusomter,
     login,
     updatePassword,
-    getExpense
+    getExpense,
+    rankCustomer,
+    potentialCustomer,
+    orderCustomer
 }

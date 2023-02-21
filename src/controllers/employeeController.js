@@ -81,10 +81,19 @@ const updateEmployee = (req, res) => {
     })
 };
 
+const notHardWork = (req, res) =>{
+    const {date1, date2} = req.body;
+    pool.query(queries.notHardWork, [date1, date2], (error, results)=>{
+        if(error) throw error;
+        res.status(200).json(results.rows);
+    })
+}
+
 module.exports = {
     getEmployees,
     getEmployeeById,
     addEmployee,
     removeEmployee,
     updateEmployee,
+    notHardWork
 }
