@@ -1,0 +1,26 @@
+[
+    {
+        "username": "Huyen3",
+        "password": "123456",
+        "roles": {
+            "Customer": 3000
+        },
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNtYXNzZW4wQGdtcGcub3JnIiwiaWF0IjoxNjc2OTg0MzQ3LCJleHAiOjE2NzcwNzA3NDd9.A5P51X4MpNGZwkQzZ7_0wDtXP0mYbjZ-IJrBI2D8o_k"
+    },
+    {
+        "username": "Huyen",
+        "roles": {
+            "Admin": 1000
+        },
+        "password": "12345678",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikh1eWVuIiwiaWF0IjoxNjc2OTg2MDYxLCJleHAiOjE2NzcwNzI0NjF9.Q9voSvWmySYJMPhUxA8WDOlwg18oWu-WBt92vxA-fas"
+    },
+    {
+        "username": "Huyen2",
+        "roles": {
+            "Employee": 2000
+        },
+        "password": "1234567",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikh1eWVuMiIsImlhdCI6MTY3Njk4OTEzMSwiZXhwIjoxNjc3MDc1NTMxfQ.e_BUzrAqGs2LGjDjY7GyQ7z_9GguORhkz1ciuyYBEyg"
+    }
+]
