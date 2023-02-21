@@ -57,8 +57,6 @@ const updatePassword = (req, res) =>{
     })
 }
 
-//xóa tài khoan cua khách hàng
-
 //cập nhật lại rank done 
 
 //customer xem minh da tieu bnhieu
