@@ -81,22 +81,7 @@ module.exports = {
     rankProduct,
 }
 
-/*
-/order- id, fgafd
- /order/id
- {
-    {
 
-    },
-    {
-
-    },
-    {
-
-    },
- }
-
-*/
 //get all product,
 //hiển thị theo category
 //get product by id,
