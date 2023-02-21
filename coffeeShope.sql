@@ -14,7 +14,7 @@ create table if not exists employees(
 	employee_id integer primary key,
     name varchar(30) not null,
 	salary integer not null,
-	email varchar(30) not null,
+	email varchar(40) unique not null,
 	dob date not null,
 	password varchar(30) not null,
 	check (length(password) >= 5)
@@ -31,7 +31,7 @@ create table if not exists customers(
 	customer_id integer primary key,
 	name varchar(30) not null,
 	dob date not null,
-	email varchar(30) not null,
+	email varchar(40) unique not null,
 	password varchar(30) not null,
 	check (length(password) >= 5),
 	rank varchar(8),
@@ -75,8 +75,8 @@ create table if not exists orderlines(
 --INGREDIENTS
 create table if not exists ingredients(
 	ingredient_id integer primary key,
-	name varchar(30) not null,
 	price_per_kg numeric(6,2) not null,
+	name varchar(30) not null,
 	available_mass numeric(6,2) not null
 );
 
