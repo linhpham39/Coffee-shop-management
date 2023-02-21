@@ -6,15 +6,27 @@ const productRoutes = require('./src/routes/productRoutes');
 const orderRoutes = require('./src/routes/orderRoutes');
 const recipeRoutes = require('./src/routes/recipeRoutes.js');
 const orderlineRoutes = require('./src/routes/orderlineRoutes.js');
+const authRoutes = require('./src/routes/authRoutes');
+const verifyJWT = require('./src/middleware/verifyJWT');
+const cookieParser = require('cookie-parser');
+const refreshTokenRoute = require('./src/routes/refreshTokenRoute');
+const logoutRoute = require('./src/routes/logoutRoute');
 const app = express();
 const port = 8000;
 
 app.use(express.json());
 
+//middleware for cookies
+app.use(cookieParser());
+
 app.get('/', (req, res) => {
     res.send('hello');
 });
 
+app.use('/auth', authRoutes);
+app.use('/refresh', refreshTokenRoute);
+app.use('/logout', logoutRoute);
+app.use(verifyJWT); 
 app.use('/customers', customerRoutes);
 app.use('/employees', employeeRoutes);
 app.use('/products', productRoutes);

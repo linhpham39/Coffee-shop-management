@@ -1,5 +1,11 @@
 const pool  = require('../../db');
 const queries = require('../queries/customerQueries');
+const usersDB = {
+    users: require('../model/users.json'),
+    setUsers: function (data) { this.users = data }
+};
+const fsPromises = require('fs').promises;
+const path = require('path');
 
 //liet ke tat ca cac khach hang
 const getCusomter = (req, res)=>{
@@ -16,8 +22,18 @@ const signUp = (req, res) => {
     pool.query(queries.getCustomerByEmail, [email], (error, results)=> {
         if(error)   throw error;
         if(results.rows.length <= 0){
-            pool.query(queries.addCustomer, [name, customer_id, dob, password, rank, email, spend], (error, results)=>{
+            pool.query(queries.addCustomer, [name, customer_id, dob, password, rank, email, spend], async (error, results)=>{
                 if(error)   throw error;
+                const newUser = {
+                    "username": email,
+                    "roles": { "Customer": 3000 },
+                    "password": password
+                };
+                usersDB.setUsers([...usersDB.users, newUser]);
+                await fsPromises.writeFile(
+                    path.join(__dirname, '..', 'model', 'users.json'),
+                    JSON.stringify(usersDB.users)
+                );
                 return res.status(200).json('Successfully registered');
             })
         }else{
@@ -67,6 +83,7 @@ const getExpense = (req, res) =>{
         res.status(200).json(results.rows);
     })
 }
+
 
 module.exports = {
     signUp,

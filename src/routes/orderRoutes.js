@@ -1,14 +1,15 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const orders = require('../controllers/orderController');
 var router = Router();
+const ROLES_LIST = require('../../config/role_list');
+const verifyRoles = require('../middleware/verifyRoles');
 
-
-router.get('/:id', orders.getOrderById);
-router.get('/', orders.getAllOrders);
-router.post('/add', orders.addOrder);
-router.get('/orderlines/:id', orders.showOrderlines);
-router.post('/revenue-period', orders.calculateRevenue);
-router.post('/profit-period', orders.calculateProfit);
+router.get('/:id', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), orders.getOrderById);
+router.get('/', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), orders.getAllOrders);
+router.post('/add', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), orders.addOrder);
+router.get('/orderlines/:id', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), orders.showOrderlines);
+router.post('/revenue-period', verifyRoles(ROLES_LIST.Manager), orders.calculateRevenue);
+router.post('/profit-period', verifyRoles(ROLES_LIST.Manager), orders.calculateProfit);
 //show ra các order trong một ngày
 
 // các chức năng của order:

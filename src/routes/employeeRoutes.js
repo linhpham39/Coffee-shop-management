@@ -1,10 +1,12 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const employees = require('../controllers/employeeController');
 var router = Router();
+const ROLES_LIST = require('../../config/role_list');
+const verifyRoles = require('../middleware/verifyRoles');
 
-router.get('/:id', employees.getEmployeeById);
-router.get('/', employees.getEmployees);
-router.post('/', employees.addEmployee);
-router.put('/:id', employees.updateEmployee);
-router.delete('/:id', employees.removeEmployee);
+router.get('/:id', verifyRoles(ROLES_LIST.Manager), employees.getEmployeeById);
+router.get('/', verifyRoles(ROLES_LIST.Manager), employees.getEmployees);
+router.post('/', verifyRoles(ROLES_LIST.Manager), employees.addEmployee);
+router.put('/:id', verifyRoles(ROLES_LIST.Manager), employees.updateEmployee);
+router.delete('/:id', verifyRoles(ROLES_LIST.Manager), employees.removeEmployee);
 module.exports = router;
