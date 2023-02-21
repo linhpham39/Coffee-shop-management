@@ -27,3 +27,9 @@
 - check lại các hàm hoạt động đúng chưa
 - dung index
 - Viết lại báo cáo
+
+- 
+- tạo data
+- test lại các trigger, function 
+- tạo view, vào các function/trigger nào có query nhiều join các thứ
+- tạo index
