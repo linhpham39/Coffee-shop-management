@@ -8,13 +8,6 @@
         "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3RFbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE2NzcwNDc5NjIsImV4cCI6MTY3NzEzNDM2Mn0.9cOjcGM9LrPLEIormCaba7Avj9d0M2MiF4H3MJ1uMWQ"
     },
     {
-        "username": "TestforCustomer@gmail.com",
-        "roles": {
-            "Customer": 3000
-        },
-        "password": "TestforCustomer"
-    },
-    {
         "username": "TestEmail2@gmail.com",
         "roles": {
             "Employee": 2000
@@ -35,5 +28,13 @@
         },
         "password": "daylaadmin",
         "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY3NzA2Mjc1OCwiZXhwIjoxNjc3MTQ5MTU4fQ.72kGiwTLnH-YxAGnHaSzARTmS2SccrRbeuVEgHxFzeE"
+    },
+    {
+        "username": "TestforCustomer@gmail.com",
+        "roles": {
+            "Customer": 3000
+        },
+        "password": "Password",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3Rmb3JDdXN0b21lckBnbWFpbC5jb20iLCJpYXQiOjE2NzcwNjY2MTUsImV4cCI6MTY3NzE1MzAxNX0.A_K8UUPH9C_lfRseZcWWz1J3ulEtJQxRCcxBLi99N7E"
     }
 ]
