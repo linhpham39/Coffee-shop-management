@@ -111,10 +111,8 @@
 	$$
 	begin
 		return query 
-		select o.customer_id, o.order_id, o.total_price, ol.product_id, ol.quantity 
-		from orders o join orderlines ol
-		on o.order_id = ol.order_id
-		where o.customer_id = a;
+		select * from view_orders v
+		where v.customer_id = a;
 	end
 	$$
 	language 'plpgsql';

@@ -16,3 +16,10 @@ FROM products p JOIN recipes r ON p.product_id = r.product_id
 CREATE VIEW view_products AS
 SELECT p.product_id, p.name, ol.quantity
 FROM products p JOIN orderlines ol ON p.product_id = ol.product_id 
+
+-- VIEW ON ORDERLINES AND ORDERS
+-- để xem các order và orderlines của 1 customer
+CREATE VIEW view_orders AS
+SELECT customer_id, o.order_id, o.total_price, ol.product_id, ol.quantity 
+		FROM orders o JOIN orderlines ol
+		ON o.order_id = ol.order_id
