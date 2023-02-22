@@ -75,8 +75,8 @@ create table if not exists orderlines(
 --INGREDIENTS
 create table if not exists ingredients(
 	ingredient_id integer primary key,
-	name varchar(30) not null,
 	price_per_kg numeric(6,2) not null,
+	name varchar(30) not null,
 	available_mass numeric(6,2) not null
 );
 
