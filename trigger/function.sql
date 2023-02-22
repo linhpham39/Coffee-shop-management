@@ -141,3 +141,32 @@ language 'plpgsql';
 
 select * from f_least_take_order_emps('2023-01-01', '2023-02-28');
 
+--TIM SAN PHAM THEO CATEGORY
+
+create or replace function f_filter_product(c character varying(15))
+returns table(product_name character varying(30), price numeric) as $$
+begin
+	return query
+	select name, selling_price
+	from products
+	where category = c and status = 'available';
+end
+$$
+language 'plpgsql';
+
+select * from f_filter_product('Hot Coffees');
+
+--TIM SAN PHAM THEO GIA TIEN
+
+create or replace function f_filter_product(c numeric)
+returns table(product_name character varying(30), price numeric) as $$
+begin
+	return query
+	select name, selling_price
+	from products
+	where selling_price <= c and status = 'available';
+end
+$$
+language 'plpgsql';
+
+select * from f_filter_product(2)

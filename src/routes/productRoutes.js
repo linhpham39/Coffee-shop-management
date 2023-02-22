@@ -11,6 +11,6 @@ router.post('/', verifyRoles(ROLES_LIST.Manager), product.addProduct);
 router.delete('/:id', verifyRoles(ROLES_LIST.Manager), product.removeProduct);
 router.put('/', verifyRoles(ROLES_LIST.Manager), product.updateProduct);
 router.get('/recipe/:id', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), product.showIngredient);
-
+router.get('/filter', product.filter);
 
 module.exports = router;

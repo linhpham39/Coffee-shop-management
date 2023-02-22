@@ -42,18 +42,6 @@ const signUp = (req, res) => {
     })
 }
 
-//dang nhap
-const login = (req, res) => {
-    const { email, password } = req.body;
-    pool.query(queries.getCustomerByEmail, [email], (error, results) => {
-        if (error) throw error;
-        if (!results.rows.length || results.rows[0].password != password)
-            res.status(401).json('Incorrect Username or Password');
-        else if (results.rows[0].password == password)
-            res.status(200).json('Login successfully');
-
-    })
-}
 
 //đổi mật khẩu
 const updatePassword = (req, res) => {
@@ -119,7 +107,6 @@ const orderCustomer = (req, res) => {
 module.exports = {
     signUp,
     getCusomter,
-    login,
     updatePassword,
     getExpense,
     rankCustomer,

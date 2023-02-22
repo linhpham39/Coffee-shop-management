@@ -7,6 +7,7 @@ const showIngredient = `SELECT * from view_ingredients
                         WHERE p.product_id = $1
                         `;
 const rankProduct = `SELECT * FROM f_high_consumed_product()`;
+const filter = 'select * from f_filter_product($1)';
     
 module.exports = {
     getProducts, 
@@ -15,5 +16,6 @@ module.exports = {
     removeProduct, 
     updateProduct,
     showIngredient,
-    rankProduct
+    rankProduct,
+    filter,
 }
