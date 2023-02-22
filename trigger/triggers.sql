@@ -40,11 +40,11 @@ create or replace function compute_rank()
         temp_rank varchar(30);
         temp_expense numeric(6, 2);
     begin
-        update  customers c
-        set expense = expense + new.total_price
-        where c.customer_id = new.customer_id;
+        update customers
+        set expense = expense + new.total_price - old.total_price
+        where customer_id = new.customer_id;
 
-        select expense 
+        select c.expense 
         into temp_expense
         from customers
         where c.customer_id = new.customer_id;
@@ -55,9 +55,10 @@ create or replace function compute_rank()
 		elseif(temp_expense >= 601) then
 			temp_rank = 'Diamond';
         end if;
+
         update customers c
         set rank = temp_rank
-        where c.customer_id = new.customer_id;
+        where customer_id = new.customer_id;
         return null;
     end
     $$;
@@ -162,6 +163,7 @@ begin
         total_price = round(temp::numeric, 2)
     where orders.order_id = o_id;
 
+	raise notice 'Change total price on order % ', o_id;
     return null;
 end
 $$;
@@ -247,4 +249,4 @@ language 'plpgsql';
 create or replace trigger update_available_mass_trigger
 after insert or update or delete on orderlines
 for each row
-execute procedure update_available_mass();
+execute procedure f_update_available_mass();
