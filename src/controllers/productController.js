@@ -81,7 +81,7 @@ const filter = (req, res) => {
         if (!results.rows.length)
             res.send("Product does not exist");
         res.status(200).json(results.rows);
-    })
+    }) 
 }
 
 module.exports = {
