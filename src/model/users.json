@@ -1,1 +1,25 @@
-[{"username":"TestEmail@gmail.com","roles":{"Employee":2000},"password":"TestPassword","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3RFbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE2NzcwMDkzNDcsImV4cCI6MTY3NzA5NTc0N30.Ka3MXk2INB9O0WeqQ2RTW8S8hYUvkpOHF6FyemTWru8"},{"username":"TestforCustomer@gmail.com","roles":{"Customer":3000},"password":"TestforCustomer"},{"username":"admin@gmail.com","roles":{"Admin":1000},"password":"12345678","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY3NzA1NjUxOCwiZXhwIjoxNjc3MTQyOTE4fQ.4B4KWcVShzibYrqTKoUlDFH0PC4RRzv9PK6tAq-WtNE"}]
+[
+    {
+        "username": "TestEmail@gmail.com",
+        "roles": {
+            "Employee": 2000
+        },
+        "password": "TestPassword",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3RFbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE2NzcwMDkzNDcsImV4cCI6MTY3NzA5NTc0N30.Ka3MXk2INB9O0WeqQ2RTW8S8hYUvkpOHF6FyemTWru8"
+    },
+    {
+        "username": "TestforCustomer@gmail.com",
+        "roles": {
+            "Customer": 3000
+        },
+        "password": "TestforCustomer"
+    },
+    {
+        "username": "admin@gmail.com",
+        "roles": {
+            "Admin": 1000
+        },
+        "password": "12345678",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY3NzA0NzI5NCwiZXhwIjoxNjc3MTMzNjk0fQ.yenhMBerIWrCalHXDhZNCjNXZRX3KTrSBcc7YLOKLW4"
+    }
+]
