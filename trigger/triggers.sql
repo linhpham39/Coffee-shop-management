@@ -282,16 +282,27 @@ for each row
 execute procedure f_update_available_mass();
 
 --Giảm ingredient thì check status
-create or replace function f_check_status_ingredient()
-	returns trigger
-    language plpgsql
-as
-$$
-declare 
-    temp numeric = 0;
-    o_id integer;
+create or replace function f_change_status()
+returns trigger as $$
 begin
-
-    return null;
+	update products p
+	set status = 'out of stock'
+	where (select ingredient_mass 
+		   from recipes r 
+		   where r.ingredient_id = old.ingredient_id and r.product_id = p.product_id) > new.available_mass;
+		   
+	update products p
+	set status = 'available'
+	where (select ingredient_mass 
+		   from recipes r 
+		   where r.ingredient_id = old.ingredient_id and r.product_id = p.product_id) <= new.available_mass;
+	return new;
 end
-$$;
+$$
+language 'plpgsql';
+
+
+create or replace trigger t_change_status
+after update on ingredients
+for each row 
+execute procedure f_change_status();

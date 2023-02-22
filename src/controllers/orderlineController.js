@@ -44,7 +44,7 @@ const updateOrderline = (req, res) => {
         }
         pool.query(queries.updateOrderline, [quantity, order_id, product_id], (error, results) => {
             if (error) throw (error)
-            res.status(200).send("Update recipe successfully!");
+            res.status(200).send("Update orderline successfully!");
         });
     });
 }
