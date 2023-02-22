@@ -66,8 +66,8 @@ create table if not exists products(
 create table if not exists orderlines(
 	order_id integer,
 	product_id integer,
-	constraint fk_orderline_order foreign key(order_id) references orders(order_id),
-	constraint fk_orderline_product foreign key(product_id) references products(product_id),
+	constraint fk_orderline_order foreign key(order_id) references orders(order_id) on delete cascade,
+	constraint fk_orderline_product foreign key(product_id) references products(product_id) on delete cascade,
 	primary key(order_id, product_id),
 	quantity integer not null
 );

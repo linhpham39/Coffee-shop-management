@@ -27,8 +27,6 @@ on customers
 for each row
 execute procedure f_compute_rank2();
 
-
-
 -- CẬP NHẬP LẠI RANK CHO CUSTOMERS SAU KHI UPDATE/INSERT/DELETE DATA CỦA ORDER
 create or replace function f_compute_rank()
     returns trigger
@@ -86,7 +84,7 @@ execute procedure f_compute_rank();
 
 --         raise notice 'Delete order %', old.order_id;
 
---         return null;
+--         return old;
 --     end;
 -- $$;
 -- -- DROP trigger t_orders_delete_orderline on orders;

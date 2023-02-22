@@ -1,3 +1,4 @@
+--Calculating revenue in period of time
 create or replace function f_revenue_period(date, date)
 returns numeric
 language plpgsql
@@ -13,7 +14,8 @@ $$
 		
 		return total;
 	end;
-$$
+$$;
+
 --Calculating profit in period of time
 CREATE or replace function f_profit_period(date, date)
     returns numeric
@@ -32,7 +34,7 @@ $$
 
         return total;
     end; 
-$$
+$$;
 
 --TINH SAN PHAM DUOC BAN RA NHIEU NHAT--
 create or replace function f_high_consumed_product()
@@ -51,7 +53,7 @@ end
 $$
 language 'plpgsql';
 
-select * from f_high_consumed_product()
+select * from f_high_consumed_product();
 
 --LAY SO TIEN MA 1 CUSTOMER DA TIEU TRONG CUA HANG
 create or replace function f_count_expense_customer(a integer)
@@ -69,7 +71,7 @@ $$
 $$
 language 'plpgsql';
 
-select * from f_count_expense_customer(310);
+select * from f_count_expense_customer(1);
 
 --TINH MOST CONSUMED CUSTOMER
 create or replace function f_high_expense_customer()
@@ -119,6 +121,8 @@ end
 $$
 language 'plpgsql';
 
+select * from f_customer_orders(1);
+
 --LIET KE CAC EMPLOYEE LAM VIEC IT NHAT TRONG 1 KHOANG THOI GIAN
 create or replace function f_least_take_order_emps(date, date)
 returns table (employee_id integer, employee_name varchar(30), amount bigint) as $$
@@ -135,5 +139,5 @@ end
 $$
 language 'plpgsql';
 
-select * from f_least_take_order_emps('2023-02-01', '2023-02-28');
+select * from f_least_take_order_emps('2023-01-01', '2023-02-28');
 
