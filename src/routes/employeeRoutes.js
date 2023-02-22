@@ -9,4 +9,5 @@ router.get('/', verifyRoles(ROLES_LIST.Manager), employees.getEmployees);
 router.post('/', verifyRoles(ROLES_LIST.Manager), employees.addEmployee);
 router.put('/:id', verifyRoles(ROLES_LIST.Manager), employees.updateEmployee);
 router.delete('/:id', verifyRoles(ROLES_LIST.Manager), employees.removeEmployee);
+router.get('/decs', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Employee), employees.notHardWork);
 module.exports = router;
