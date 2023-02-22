@@ -6,7 +6,6 @@ const getAllProducts = (req, res) =>{
     pool.query(queries.getProducts, (error, results)=>{
         if(error) throw error;
         res.status(200).json(results.rows);
-        // console.log(pool.user);
     }) 
 }
 
@@ -19,9 +18,9 @@ const getProductById = (req, res) => {
 }
 
 const addProduct = (req, res) =>{
-    const {product_id, name, category, selling_price, status, profit} = req.body;
+    const {product_id, name, category, selling_price, state, revenue} = req.body;
     console.log(1);
-    pool.query(queries.addProduct, [product_id, name, category, selling_price, status, profit], (error, results)=>{
+    pool.query(queries.addProduct, [product_id, name, category, selling_price, state, revenue], (error, results)=>{
         if(error) throw error; 
         res.status(200).send('Successfully add product');
     })
@@ -42,13 +41,13 @@ const removeProduct= (req, res) => {
 };
 
 const updateProduct = (req, res) =>{
-    const {product_id, name, category, selling_price, status, profit} = req.body;
+    const {product_id, name, category, selling_price, state, profit} = req.body;
     pool.query(queries.getProductById, [product_id], (error, results) =>{
         if(!results.rows.length)
             res.send("Product does not exist in the database");
         
         //update product
-        pool.query(queries.updateProduct, [product_id, name, category, selling_price, status, profit], (error, results) =>{
+        pool.query(queries.updateProduct, [product_id, name, category, selling_price, state, profit], (error, results) =>{
             if(error) throw error;
             res.status(200).send('Update successfully!');
         });
