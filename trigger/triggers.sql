@@ -20,7 +20,7 @@ if (new.expense >= 100 and new.expense <= 200) then
         return null;
 end;
 $$;
-
+-- DROP trigger t_customers_compute_rank2 on customers;
 create or replace trigger t_customers_compute_rank2
 after insert 
 on customers
@@ -39,11 +39,11 @@ create or replace function f_compute_rank()
         temp_rank varchar(30);
         temp_expense numeric(6, 2);
     begin
-        update customers c
-        set expense = expense + new.total_price
-        where c.customer_id = new.customer_id;
+        update customers
+        set expense = expense + new.total_price - old.total_price
+        where customer_id = new.customer_id;
 
-        select expense 
+        select c.expense 
         into temp_expense
         from customers c
         where c.customer_id = new.customer_id;
@@ -56,13 +56,16 @@ create or replace function f_compute_rank()
 			temp_rank = 'Diamond';
         end if;
 
-        update customers c
+        update customers 
         set rank = temp_rank
-        where c.customer_id = new.customer_id;
+        where customer_id = new.customer_id;
+
+		raise notice 'Change expense to % and rank to %', temp_expense, temp_rank;
+
         return null;
     end
     $$;
-	
+-- DROP trigger t_orders_compute_rank on orders;
 create or replace trigger t_orders_compute_rank
 after update 
 on orders
@@ -71,85 +74,85 @@ execute procedure f_compute_rank();
 
 
 
---Trigger for delete order => delete orderlines
-create or replace function f_delete_orderline()
-    returns trigger
-    language plpgsql
-as
-$$
-    begin
-        delete from orderlines ol
-        where ol.order_id = old.order_id;
+-- --Trigger for delete order => delete orderlines
+-- create or replace function f_delete_orderline()
+--     returns trigger
+--     language plpgsql
+-- as
+-- $$
+--     begin
+--         delete from orderlines ol
+--         where ol.order_id = old.order_id;
 
-        raise notice 'Delete order %', old.order_id;
+--         raise notice 'Delete order %', old.order_id;
 
-        return null;
-    end;
-$$;
+--         return null;
+--     end;
+-- $$;
+-- -- DROP trigger t_orders_delete_orderline on orders;
+-- create or replace trigger t_orders_delete_orderline
+-- before delete 
+-- on orders
+-- for each row
+-- execute procedure f_delete_orderline();
 
-create or replace trigger t_orders_delete_orderline
-before delete 
-on orders
-for each row
-execute procedure f_delete_orderline();
 
-
--- CẬP NHẬT LẠI GIÁ TIỀN BILL CỦA ORDERS KHI ADD 1 ORDERLINE
---trigger for insert/delete/update orderlines => compute 
---total_price of orders again
-create or replace function f_compute_totalprice1()
-	returns trigger
-	language plpgsql
-as
-$$ 
-declare
-	temp numeric = 0;
-	temp2 numeric = 0;
-begin
-	if(TG_OP = 'INSERT') then
-		select (p.selling_price * new.quantity)
-		into temp
-		from orderlines ol natural join products p
-		where p.product_id = new.product_id  ;
+-- -- CẬP NHẬT LẠI GIÁ TIỀN BILL CỦA ORDERS KHI ADD 1 ORDERLINE
+-- --trigger for insert/delete/update orderlines => compute 
+-- --total_price of orders again
+-- create or replace function f_compute_totalprice1()
+-- 	returns trigger
+-- 	language plpgsql
+-- as
+-- $$ 
+-- declare
+-- 	temp numeric = 0;
+-- 	temp2 numeric = 0;
+-- begin
+-- 	if(TG_OP = 'INSERT') then
+-- 		select (p.selling_price * new.quantity)
+-- 		into temp
+-- 		from orderlines ol natural join products p
+-- 		where p.product_id = new.product_id  ;
 		
-		update orders o
-		set total_price = total_price + temp
-		where o.order_id = new.order_id;
+-- 		update orders o
+-- 		set total_price = total_price + temp
+-- 		where o.order_id = new.order_id;
 
-    elseif(TG_OP = 'DELETE') then
-        select (p.selling_price * old.quantity)
-		into temp
-		from orderlines ol natural join products p
-		where p.product_id = old.product_id;
+--     elseif(TG_OP = 'DELETE') then
+--         select (p.selling_price * old.quantity)
+-- 		into temp
+-- 		from orderlines ol natural join products p
+-- 		where p.product_id = old.product_id;
 		
-		update orders
-		set total_price = total_price - temp
-		where o.order_id = old.order_id;
+-- 		update orders
+-- 		set total_price = total_price - temp
+-- 		where o.order_id = old.order_id;
     
-    elseif(TG_OP = 'UPDATE') then
-        select (selling_price * old.quantity)
-		into temp
-		from orderlines ol natural join products p
-		where  p.product_id = new.product_id;
+--     elseif(TG_OP = 'UPDATE') then
+--         select (selling_price * old.quantity)
+-- 		into temp
+-- 		from orderlines ol natural join products p
+-- 		where  p.product_id = new.product_id;
 		
-		select (selling_price * new.quantity)
-		into temp2
-		from orderlines ol natural join products p
-		where  p.product_id = new.product_id;
+-- 		select (selling_price * new.quantity)
+-- 		into temp2
+-- 		from orderlines ol natural join products p
+-- 		where  p.product_id = new.product_id;
 		
-		update orders
-		set total_price = total_price - temp + temp2
-		where orders.order_id = old.order_id;
-	end if;
-	return null;
-end
-$$;
+-- 		update orders
+-- 		set total_price = total_price - temp + temp2
+-- 		where orders.order_id = old.order_id;
+-- 	end if;
+-- 	return null;
+-- end
+-- $$;
 
-create or replace trigger t_orderlines_compute_totalprice
-after insert or delete or update
-on orderlines
-for each row
-execute procedure f_compute_totalprice1();
+-- create or replace trigger t_orderlines_compute_totalprice
+-- after insert or delete or update
+-- on orderlines
+-- for each row
+-- execute procedure f_compute_totalprice1();
 
 --CẬP NHẬT GIÁ TIỀN CHO ORDER KHI ADD/DELETE ORDERLINES
 create or replace function f_compute_totalprice2()
@@ -174,13 +177,21 @@ begin
     	join orders od on od.order_id = ol.order_id
     where od.order_id = o_id;
 
+	if (temp is null) then temp = 0;
+	end if;
+
     update orders
     set
         total_price = temp
     where orders.order_id = o_id;
 
-	raise notice 'Change total price on order % ', o_id;
-    return null;
+	raise notice 'Change total price on order % to % ', o_id, temp;
+
+    IF (TG_OP = 'DELETE') THEN
+        return old;
+    ELSE
+        return new;
+    END if;
 end
 $$;
 
@@ -269,3 +280,18 @@ create or replace trigger t_update_available_mass_trigger
 after insert or update or delete on orderlines
 for each row
 execute procedure f_update_available_mass();
+
+--Giảm ingredient thì check status
+create or replace function f_check_status_ingredient()
+	returns trigger
+    language plpgsql
+as
+$$
+declare 
+    temp numeric = 0;
+    o_id integer;
+begin
+
+    return null;
+end
+$$;
