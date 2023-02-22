@@ -3,6 +3,7 @@ const getCustomerByEmail = 'SELECT email, password FROM customers WHERE email = 
 const addCustomer = 'INSERT INTO customers VALUES($1, $2, $3, $4, $5, $6, $7)';
 const updatePassword = 'UPDATE customers SET password = $1 WHERE email = $2';
 const getExpense = 'select * from count_expense_customer($1)';
+const mostConsumedCus = 'select * from high_expense_customer()';
 
 module.exports = {
     getCustomers,
@@ -10,4 +11,5 @@ module.exports = {
     addCustomer,
     updatePassword,
     getExpense,
+    mostConsumedCus
 }

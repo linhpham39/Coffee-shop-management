@@ -35,6 +35,7 @@ const login = (req, res)=>{
             res.status(401).json('Incorrect Username or Password');
         else if(results.rows[0].password == password)
             res.status(200).json('Login successfully');
+
     })
 }
 
