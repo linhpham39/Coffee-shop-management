@@ -19,9 +19,9 @@ const getProductById = (req, res) => {
 }
 
 const addProduct = (req, res) =>{
-    const {product_id, name, category, selling_price, state, revenue} = req.body;
+    const {product_id, name, category, selling_price, status, profit} = req.body;
     console.log(1);
-    pool.query(queries.addProduct, [product_id, name, category, selling_price, state, revenue], (error, results)=>{
+    pool.query(queries.addProduct, [product_id, name, category, selling_price, status, profit], (error, results)=>{
         if(error) throw error; 
         res.status(200).send('Successfully add product');
     })

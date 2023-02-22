@@ -11,5 +11,5 @@ router.put('/updatePassword', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Custome
 router.get('/expense/:id', verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Customer), customers.getExpense);
 router.get('/rank', verifyRoles(ROLES_LIST.Manager), customers.rankCustomer);
 router.get('/potential', verifyRoles(ROLES_LIST.Manager), customers.potentialCustomer);
-router.get('/order', verifyRoles(ROLES_LIST.Manager), customers.orderCustomer);
+router.get('/order/:id', verifyRoles(ROLES_LIST.Manager), customers.orderCustomer);
 module.exports = router;

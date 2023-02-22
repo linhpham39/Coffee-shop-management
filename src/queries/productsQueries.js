@@ -6,7 +6,7 @@ const updateProduct = 'UPDATE products SET name = $2, category = $3, selling_pri
 const showIngredient = `SELECT * from view_ingredients
                         WHERE p.product_id = $1
                         `;
-const rankProduct = `SELECT * FROM high_consumed_product()`;
+const rankProduct = `SELECT * FROM f_high_consumed_product()`;
     
 module.exports = {
     getProducts, 

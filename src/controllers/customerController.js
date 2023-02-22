@@ -18,11 +18,11 @@ const getCusomter = (req, res)=>{
 
 //dang ky tai khoan cho customer, neu email bi trung roi thi thong bao loi
 const signUp = (req, res) => {
-    const {name, customer_id, dob, password, rank, email, spend} = req.body;
+    const {customer_id, name, dob, email, password, rank, expense} = req.body;
     pool.query(queries.getCustomerByEmail, [email], (error, results)=> {
         if(error)   throw error;
         if(results.rows.length <= 0){
-            pool.query(queries.addCustomer, [name, customer_id, dob, password, rank, email, spend], async (error, results)=>{
+            pool.query(queries.addCustomer, [customer_id, name, dob, email, password, rank, expense], async (error, results)=>{
                 if(error)   throw error;
                 const newUser = {
                     "username": email,
