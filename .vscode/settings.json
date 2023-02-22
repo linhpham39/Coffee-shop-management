@@ -39,6 +39,26 @@
             "database": "Final",
             "username": "anonymous",
             "password": "1"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "CSMS_cus",
+            "database": "Final",
+            "username": "customer_demo2",
+            "password": "123123"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "test",
+            "database": "CSMS",
+            "username": "postgres",
+            "password": "minh2310"
         }
     ]
 }
