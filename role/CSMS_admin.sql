@@ -4,10 +4,7 @@ CREATE ROLE anonymous
 LOGIN
 password '1';
 
-DROP ROLE customer_demo;
-CREATE ROLE customer_demo
-LOGIN 
-password '123123';
+
 
 DROP ROLE employee_demo;
 CREATE ROLE employee_demo

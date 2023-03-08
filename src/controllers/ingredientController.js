@@ -1,6 +1,7 @@
 const pool = require('../../db');
 const queries = require('../queries/ingredientQueries')
 
+
 const getIngredients = (req, res) => {
     pool.query(queries.getIngredients, (error, results) => {
         if (error) throw error;
@@ -16,6 +17,7 @@ const getIngredientByID = (req, res) => {
     });
 }
 
+
 const updateIngredient = (req, res) => {
     var id = req.params.id;
     const { ingredient_id, price_per_kg, name, available_mass } = req.body;
@@ -30,6 +32,7 @@ const updateIngredient = (req, res) => {
     })
 };
 
+
 const addIngredient = (req, res) => {
     const { ingredient_id, price_per_kg, name, available_mass } = req.body;
     pool.query(queries.getIngredientByName, [name], (error, results) => {
@@ -43,6 +46,7 @@ const addIngredient = (req, res) => {
     });
 }
 
+
 const deleteIngredient = (req, res) => {
     var id = req.params.id;
     pool.query(queries.getIngredientByID, [ingredient_id], (error, results) =>{
@@ -55,6 +59,7 @@ const deleteIngredient = (req, res) => {
         });
     });
 };
+
 module.exports = {
     getIngredients,
     getIngredientByID,

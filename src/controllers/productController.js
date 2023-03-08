@@ -74,9 +74,9 @@ const rankProduct = (req, res) => {
 }
 
 const filter = (req, res) => {
-    var {condition} = req.body;
+    //var {condition} = req.body;
     console.log('anything');
-    pool.query(queries.filter, [condition], (error, results) => {
+    pool.query(queries.filter, (error, results) => {
         if (error) throw error;
         if (!results.rows.length)
             res.send("Product does not exist");
