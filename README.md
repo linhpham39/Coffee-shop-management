@@ -1,8 +1,7 @@
 ﻿# Coffee-shop-management
 # Coffee-shop-management
 # để chạy được chương trình => cài nodejs. cài postMan
-- sau đó pull code từ github về. Mở terminal gõ "npm install"
-- cài thư viện Express => gõ ở terminal "npm i --save express"
+- cài thư viện Express
 - file server.js: máy sẽ chạy file này và chạy ở link: "localhost:8000" 
 
 # Route.js:
